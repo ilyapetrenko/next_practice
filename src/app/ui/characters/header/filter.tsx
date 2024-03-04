@@ -7,28 +7,28 @@ export default function Filter() {
     const [isFilterVisible, setFilterVisible] = useState(false);
     const [selectedStatuses, setSelectedStatuses] = useState([] as string[]);
 
-    useEffect(() => {
-        createPageURL(selectedStatuses)
-    },[selectedStatuses])
-
     const { replace } = useRouter();
 
     const pathname = usePathname();
     const searchParams = useSearchParams();
 
-    const createPageURL = (selectedStatuses: string[]) => {
-        const params = new URLSearchParams(searchParams);
-        if (selectedStatuses.length > 0) {
-            params.set('status', selectedStatuses.join(','));
-        } else {
-            params.delete('status');
-        }
-        replace(`${pathname}?${params.toString()}`);
-    };
-
     const handleFilterButtonClick = () => {
         setFilterVisible(!isFilterVisible);
     };
+
+    useEffect(() => {
+        const createPageURL = (selectedStatuses: string[]) => {
+            const params = new URLSearchParams(searchParams);
+            if (selectedStatuses.length > 0) {
+                params.set('status', selectedStatuses.join(','));
+            } else {
+                params.delete('status');
+            }
+            replace(`${pathname}?${params.toString()}`);
+        };
+
+        createPageURL(selectedStatuses)
+    },[pathname, replace, searchParams, selectedStatuses])
 
     const handleStatusChange = (status: string) => {
         const updatedStatuses = [...selectedStatuses];
