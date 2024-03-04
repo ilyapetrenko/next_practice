@@ -9,7 +9,7 @@ export interface Location {
 }
 
 export interface Episode {
-    [key: string]: string; // Замените на более точное описание типа
+    [key: string]: string;
 }
 
 export interface Character {
@@ -35,6 +35,7 @@ export interface Info {
 }
 
 export interface SearchCharsResponse {
-    info: Info
-    results: Character[]
+    info?: Info
+    results?: Character[]
+    error?: string
 }
